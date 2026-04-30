@@ -1,0 +1,240 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "title": "My First Note",
+    "content": {
+      "ops": [
+        {
+          "insert": "Welcome to Digital Book Notes!"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "header": 1
+          }
+        },
+        {
+          "insert": "\nThis is a sample note with "
+        },
+        {
+          "insert": "rich text formatting",
+          "attributes": {
+            "bold": true,
+            "color": "#0066cc"
+          }
+        },
+        {
+          "insert": ". You can add:\n\n"
+        },
+        {
+          "insert": "Bulleted lists"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "Links like "
+        },
+        {
+          "insert": "this example",
+          "attributes": {
+            "link": "https://example.com"
+          }
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "Formatted text with colors and styles"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "\nEnjoy taking notes!\n"
+        }
+      ]
+    },
+    "createdBy": "user-001",
+    "createdTime": "2026-04-20T10:30:00.000Z",
+    "updatedTime": "2026-04-27T08:15:00.000Z",
+    "tags": ["welcome", "tutorial", "getting-started"],
+    "category": "General",
+    "isFavorite": true,
+    "status": "published",
+    "permissions": "private",
+    "version": 2,
+    "searchableText": "Welcome to Digital Book Notes! This is a sample note with rich text formatting. You can add: Bulleted lists Links like this example Formatted text with colors and styles Enjoy taking notes!"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "title": "Project Ideas",
+    "content": {
+      "ops": [
+        {
+          "insert": "Ideas for the Digital Book App"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "header": 2
+          }
+        },
+        {
+          "insert": "\n"
+        },
+        {
+          "insert": "Add image support in notes"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "ordered"
+          }
+        },
+        {
+          "insert": "Implement tagging system"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "ordered"
+          }
+        },
+        {
+          "insert": "Create book reader interface"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "ordered"
+          }
+        },
+        {
+          "insert": "Add search functionality"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "ordered"
+          }
+        },
+        {
+          "insert": "\n"
+        },
+        {
+          "insert": "Note: ",
+          "attributes": {
+            "bold": true
+          }
+        },
+        {
+          "insert": "Focus on MVP features first!\n"
+        }
+      ]
+    },
+    "createdBy": "user-001",
+    "createdTime": "2026-04-25T14:20:00.000Z",
+    "updatedTime": "2026-04-26T09:45:00.000Z",
+    "tags": ["welcome","ideas", "planning", "roadmap"],
+    "category": "Development",
+    "isFavorite": false,
+    "status": "draft",
+    "permissions": "private",
+    "version": 1,
+    "searchableText": "Ideas for the Digital Book App Add image support in notes Implement tagging system Create book reader interface Add search functionality Note: Focus on MVP features first!"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "title": "Book Summary: Clean Code",
+    "content": {
+      "ops": [
+        {
+          "insert": "Clean Code by Robert C. Martin"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "header": 1
+          }
+        },
+        {
+          "insert": "\nKey Takeaways:"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "header": 3
+          }
+        },
+        {
+          "insert": "\n"
+        },
+        {
+          "insert": "Meaningful names",
+          "attributes": {
+            "italic": true
+          }
+        },
+        {
+          "insert": " - use descriptive and searchable names"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "Functions should be small and do one thing"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "Comments should explain WHY, not WHAT"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "Error handling is important - don't return null"
+        },
+        {
+          "insert": "\n",
+          "attributes": {
+            "list": "bullet"
+          }
+        },
+        {
+          "insert": "\nRating: ⭐⭐⭐⭐⭐\n"
+        }
+      ]
+    },
+    "createdBy": "user-001",
+    "createdTime": "2026-04-15T16:00:00.000Z",
+    "updatedTime": "2026-04-15T16:30:00.000Z",
+    "tags": ["books", "programming", "clean-code"],
+    "category": "Books",
+    "isFavorite": true,
+    "status": "published",
+    "permissions": "private",
+    "version": 1,
+    "searchableText": "Clean Code by Robert C. Martin Key Takeaways: Meaningful names - use descriptive and searchable names Functions should be small and do one thing Comments should explain WHY, not WHAT Error handling is important - don't return null Rating: ⭐⭐⭐⭐⭐"
+  }
+]
