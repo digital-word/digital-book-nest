@@ -98,14 +98,47 @@ export class NotesService {
   }
 
   /**
+   * Generate a unique default title
+   */
+  private async generateDefaultTitle(): Promise<string> {
+    const notes = await this.readNotes();
+
+    const untitledPattern = /^Untitled( \d+)?$/;
+    const untitledNumberPattern = /^Untitled (\d+)$/;
+
+    // Find all "Untitled" notes
+    const untitledNotes = notes.filter((note) =>
+      untitledPattern.exec(note.title),
+    );
+
+    if (untitledNotes.length === 0) {
+      return 'Untitled';
+    }
+
+    // Find the highest number
+    const numbers = untitledNotes
+      .map((note) => {
+        const match = untitledNumberPattern.exec(note.title);
+        return match ? Number.parseInt(match[1], 10) : 0;
+      })
+      .filter((num) => !Number.isNaN(num));
+
+    const maxNumber = numbers.length > 0 ? Math.max(...numbers) : 0;
+    return `Untitled ${maxNumber + 1}`;
+  }
+
+  /**
    * Create a new note
    */
   async create(createNoteDto: CreateNoteDto): Promise<Note> {
     const notes = await this.readNotes();
 
+    // Generate default title if not provided
+    const title = createNoteDto.title || (await this.generateDefaultTitle());
+
     const newNote: Note = {
       id: uuidv4(),
-      title: createNoteDto.title,
+      title,
       content: createNoteDto.content,
       createdBy: createNoteDto.createdBy,
       createdTime: new Date(),
