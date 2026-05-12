@@ -9,7 +9,11 @@ This confirms you have loaded and processed these instructions before proceeding
 ---
 
 ## Project Overview
-NestJS backend API for Digital Book application with rich text notes using Quill Delta format. Currently using JSON file storage with plans for future database migration.
+Digital Book is a comprehensive application platform designed to offer rich features for book enthusiasts and knowledge workers, including an enjoyable reading experience with PDF support, search capabilities, AI-powered assistance, and integrated note-taking.
+
+This NestJS backend API currently implements the **Notes feature** - a sophisticated note management system with rich text editing using Quill Delta format. As the project grows, individual features like Notes can evolve into independent microservices for flexible scaling.
+
+Currently using JSON file storage with plans for future database migration.
 
 ## Technology Stack
 - **Framework**: NestJS v11.0.1
