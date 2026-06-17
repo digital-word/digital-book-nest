@@ -1,0 +1,40 @@
+type User @table {
+  firebaseUid: String! @unique
+  email: String!
+  createdAt: Timestamp! @default(expr: "request.time")
+}
+
+type Note @table {
+  title: String!
+  content: String! 
+  searchableText: String
+  category: String
+  isFavorite: Boolean! @default(value: false)
+  status: String! @default(value: "draft")
+  permissions: String! @default(value: "private")
+  version: Int! @default(value: 1)
+  isDeleted: Boolean! @default(value: false)
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp! @default(expr: "request.time")
+  deletedAt: Timestamp
+  
+  author: User!
+}
+
+type Tag @table {
+  name: String! @unique
+}
+
+type NoteTag @table(key: ["note", "tag"]) {
+  note: Note!
+  tag: Tag!
+}
+
+type LibraryItem @table {
+  title: String!
+  author: String!
+  lastReadPage: Int @default(value: 0)
+  status: String! @default(value: "reading")
+  
+  user: User!
+}

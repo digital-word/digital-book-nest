@@ -1,0 +1,24 @@
+
+# This is a file for you to write an un-named query.
+# Only one un-named query is allowed per file.
+query {
+  notes{
+    title
+    content
+    searchableText
+    category
+    isFavorite
+    status
+    permissions
+    version
+    isDeleted
+    createdAt
+    updatedAt
+    deletedAt
+    author {
+      firebaseUid
+      email
+      createdAt
+    }
+  }
+}

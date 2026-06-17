@@ -37,7 +37,7 @@ lerna-debug.log*
 
 # dotenv environment variable files
 .env
-.env.development.local
+.env.develop.local
 .env.test.local
 .env.production.local
 .env.local
@@ -54,3 +54,7 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Firebase
+/dataconnect/.dataconnect/
+/dataconnect/src/

@@ -1,0 +1,8 @@
+mutation CreateNewUser @auth(level: USER) {
+  user_insert(
+    data: {
+      firebaseUid_expr: "auth.uid"       # Extracts UID directly from secure token
+      email_expr: "auth.token.email"     # Extracts email directly from secure token
+    }
+  )
+}
