@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "main": "dist/functions/src/index.js",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -28,6 +29,7 @@
     "@nestjs/swagger": "^11.4.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "firebase": "^12.15.0",
     "firebase-admin": "^13.10.0",
     "firebase-functions": "^7.2.5",
     "reflect-metadata": "^0.2.2",

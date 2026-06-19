@@ -3,4 +3,6 @@ export interface AppConfiguration {
   port: number;
   frontendUrl: string;
   dataPath: string;
+  firebaseWebApiKey: string;
+  firebaseAuthDomain: string;
 }

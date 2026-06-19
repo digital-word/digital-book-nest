@@ -74,6 +74,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Deploy
+
+Using Google Cloud with Firebase.
+
+- [Project Overview](https://console.firebase.google.com/project/digital-book-fbaa0/overview)
+- [Project settings](https://console.firebase.google.com/project/digital-book-fbaa0/settings/general/web:NGI3MTIzYzgtMDA5ZS00NjNmLTgyOTUtYWEwZDM2NjdiOTU5)
+
 ## License
 
 MIT

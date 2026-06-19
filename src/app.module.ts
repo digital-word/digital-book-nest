@@ -4,14 +4,16 @@ import { AppService } from './app.service';
 import { NotesModule } from './notes/notes.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: '.env',
     }),
+    AuthModule,
     NotesModule,
   ],
   controllers: [AppController],
