@@ -12,7 +12,7 @@ export class FirebaseConfigService {
   public app!: FirebaseApp;
   constructor(private readonly configService: ConfigService) {}
 
-  initializeFirebaseAdmin(): void {
+  initFirebaseApp(): void {
     const config: FirebaseConfig = {
       apiKey: this.configService.get<string>('firebaseWebApiKey') || '',
       authDomain: this.configService.get<string>('firebaseAuthDomain') || '',

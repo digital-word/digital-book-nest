@@ -1,4 +1,4 @@
-connectorId: example
+connectorId: notes
 generate:
   adminNodeSdk:
     - outputDir: ..\src\dataconnect-admin-generated

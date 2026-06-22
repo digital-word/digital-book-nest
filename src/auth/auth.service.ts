@@ -4,9 +4,7 @@ import { FirebaseConfigService } from '../config/firebase.config';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly firebaseConfigService: FirebaseConfigService) {
-    firebaseConfigService.initializeFirebaseAdmin();
-  }
+  constructor(private readonly firebaseConfigService: FirebaseConfigService) {}
 
   async login(email: string, password: string): Promise<User> {
     const auth = getAuth(this.firebaseConfigService.app);

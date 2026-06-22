@@ -5,4 +5,5 @@ export interface AppConfiguration {
   dataPath: string;
   firebaseWebApiKey: string;
   firebaseAuthDomain: string;
+  gcpProjectId: string;
 }

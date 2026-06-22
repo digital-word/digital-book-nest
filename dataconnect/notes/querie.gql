@@ -1,0 +1,21 @@
+query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
+  notes(
+    limit: $limit
+    offset: $offset
+    where: { isDeleted: { eq: false } }
+    orderBy: [{ updatedAt: DESC }]
+  ) {
+    id
+    title
+    content
+    searchableText
+    category
+    isFavorite
+    status
+    permissions
+    version
+    isDeleted
+    createdAt
+    updatedAt
+  }
+}

@@ -80,6 +80,16 @@ Using Google Cloud with Firebase.
 
 - [Project Overview](https://console.firebase.google.com/project/digital-book-fbaa0/overview)
 - [Project settings](https://console.firebase.google.com/project/digital-book-fbaa0/settings/general/web:NGI3MTIzYzgtMDA5ZS00NjNmLTgyOTUtYWEwZDM2NjdiOTU5)
+- [Hosting](https://console.firebase.google.com/project/digital-book-fbaa0/hosting/sites/digital-book-fbaa0)
+- [Functions](https://console.firebase.google.com/project/digital-book-fbaa0/functions)
+
+### Some Docs
+- [Sign in users with email and password](https://docs.cloud.google.com/identity-platform/docs/sign-in-user-email)
+- [SQL connect](https://firebase.google.com/docs/sql-connect)
+
+### Some Commands
+
+- Open Cloud SQL Shell: firebase dataconnect:sql:shell --project digital-book-fbaa0
 
 ## License
 

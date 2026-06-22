@@ -1,11 +1,17 @@
 import 'reflect-metadata';
+import { getApps, initializeApp } from 'firebase-admin/app';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import configuration from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  if (!getApps().length) {
+    initializeApp({ projectId: configuration().gcpProjectId });
+  }
 
   // Enable validation and transformation globally
   app.useGlobalPipes(
@@ -38,4 +44,5 @@ async function bootstrap() {
 
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
+
 void bootstrap();

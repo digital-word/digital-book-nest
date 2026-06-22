@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Note, Content } from './interfaces/note.interface';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { listNotes } from '@dataconnect/admin-generated';
 
 @Injectable()
 export class NotesService {
@@ -53,7 +54,8 @@ export class NotesService {
    * Get all notes (private helper for internal use)
    */
   private async getAllNotes(includeDeleted = false): Promise<Note[]> {
-    const notes = await this.readNotes();
+    const result = await listNotes({ limit: 1000, offset: 0 });
+    const notes = result.data.notes as unknown as Note[];
 
     if (includeDeleted) {
       return notes;
@@ -70,17 +72,21 @@ export class NotesService {
     limit: number = 10,
     includeDeleted = false,
   ): Promise<{ data: Note[]; total: number }> {
-    const allNotes = await this.getAllNotes(includeDeleted);
-    const total = allNotes.length;
+    const offset = (page - 1) * limit;
 
-    // Calculate pagination
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
+    if (includeDeleted) {
+      // includeDeleted needs getAllNotes since ListNotes filters isDeleted=false
+      const allNotes = await this.getAllNotes(true);
+      const total = allNotes.length;
+      const data = allNotes.slice(offset, offset + limit);
+      return { data, total };
+    }
 
-    // Slice the array for pagination
-    const data = allNotes.slice(startIndex, endIndex);
+    const result = await listNotes({ limit, offset });
+    const data = result.data.notes as unknown as Note[];
 
-    return { data, total };
+    // total is unknown without a count query — return data.length as floor
+    return { data, total: data.length + offset };
   }
 
   /**

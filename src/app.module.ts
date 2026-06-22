@@ -5,6 +5,7 @@ import { NotesModule } from './notes/notes.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { AuthModule } from './auth/auth.module';
+import { FirebaseConfigService } from './config/firebase.config';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { AuthModule } from './auth/auth.module';
     NotesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FirebaseConfigService],
 })
 export class AppModule {}

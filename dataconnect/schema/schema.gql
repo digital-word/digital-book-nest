@@ -1,12 +1,6 @@
-type User @table {
-  firebaseUid: String! @unique
-  email: String!
-  createdAt: Timestamp! @default(expr: "request.time")
-}
-
 type Note @table {
   title: String!
-  content: String! 
+  content: Any! 
   searchableText: String
   category: String
   isFavorite: Boolean! @default(value: false)
@@ -17,8 +11,7 @@ type Note @table {
   createdAt: Timestamp! @default(expr: "request.time")
   updatedAt: Timestamp! @default(expr: "request.time")
   deletedAt: Timestamp
-  
-  author: User!
+  userUID: String!
 }
 
 type Tag @table {
@@ -35,6 +28,5 @@ type LibraryItem @table {
   author: String!
   lastReadPage: Int @default(value: 0)
   status: String! @default(value: "reading")
-  
-  user: User!
+  userUID: String!
 }
