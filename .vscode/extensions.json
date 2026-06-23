@@ -1,0 +1,12 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "ms-vscode.powershell",
+    "ms-vscode.vscode-speech",
+    "sonarsource.sonarlint-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "wesbos.theme-cobalt2",
+    "googlecloudtools.firebase-dataconnect-vscode",
+  ]
+}
