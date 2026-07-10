@@ -7,6 +7,22 @@ query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
   ) {
     id
     title
+    category
+    isFavorite
+    status
+    permissions
+    version
+    createdAt
+    updatedAt
+  }
+}
+
+query NoteDetail($id: UUID) @auth(level: NO_ACCESS) {
+  notes(
+    where: { id: { eq: $id }, isDeleted: { eq: false } }
+  ) {
+    id
+    title
     content
     searchableText
     category
@@ -14,7 +30,6 @@ query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
     status
     permissions
     version
-    isDeleted
     createdAt
     updatedAt
   }

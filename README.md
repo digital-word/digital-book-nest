@@ -82,15 +82,17 @@ Using Google Cloud with Firebase.
 - [Project settings](https://console.firebase.google.com/project/digital-book-fbaa0/settings/general/web:NGI3MTIzYzgtMDA5ZS00NjNmLTgyOTUtYWEwZDM2NjdiOTU5)
 - [Hosting](https://console.firebase.google.com/project/digital-book-fbaa0/hosting/sites/digital-book-fbaa0)
 - [Functions](https://console.firebase.google.com/project/digital-book-fbaa0/functions)
+- [SQL connect](https://console.firebase.google.com/project/digital-book-fbaa0/dataconnect/locations/us-east4/services/digital-book-fbaa0-service/data?selectedTab=Note&view=table-view&r=2)
 
 ### Some Docs
 - [Sign in users with email and password](https://docs.cloud.google.com/identity-platform/docs/sign-in-user-email)
 - [SQL connect](https://firebase.google.com/docs/sql-connect)
 
 ### Some Commands
-
-- Open Cloud SQL Shell: firebase dataconnect:sql:shell --project digital-book-fbaa0
+`firebase login`
+`firebase dataconnect:sql:shell --project digital-book-fbaa0` (Open Cloud SQL Shell)
+`gcloud auth application-default login` (This re-authenticates ADC for the admin. For local development)
 
 ## License
 
-MIT
+MIT 
