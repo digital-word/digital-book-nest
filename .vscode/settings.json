@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
+  "workbench.colorTheme": "Default High Contrast",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.language": "en",
-  "cSpell.words": ["NOSONAR"],
+  "cSpell.words": ["NOSONAR"]
 }
