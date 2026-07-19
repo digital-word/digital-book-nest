@@ -1,17 +1,42 @@
+enum NotePermission {
+  private
+  shared
+  public
+}
+
+enum NoteStatus {
+  draft
+  published
+  archived
+}
+
+type NoteRevision @table {
+  note: Note!
+  version: Int!
+
+  title: String!
+  content: Any
+  searchableText: String
+  savedAt: Timestamp @default(expr: "request.time")
+}
+
 type Note @table {
   title: String!
-  content: Any! 
+  content: Any
   searchableText: String
-  category: String
-  isFavorite: Boolean! @default(value: false)
-  status: String! @default(value: "draft")
-  permissions: String! @default(value: "private")
-  version: Int! @default(value: 1)
-  isDeleted: Boolean! @default(value: false)
-  createdAt: Timestamp! @default(expr: "request.time")
-  updatedAt: Timestamp! @default(expr: "request.time")
-  deletedAt: Timestamp
+
   userUID: String!
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp
+  deletedAt: Timestamp
+
+  isFavorite: Boolean! @default(value: false)
+
+  status: NoteStatus! @default(value: "draft")
+  isDeleted: Boolean! @default(value: false)
+
+  permissions: NotePermission! @default(value: "private")
+  version: Int @default(value: 1)
 }
 
 type Tag @table {
@@ -23,10 +48,11 @@ type NoteTag @table(key: ["note", "tag"]) {
   tag: Tag!
 }
 
-type LibraryItem @table {
-  title: String!
-  author: String!
-  lastReadPage: Int @default(value: 0)
-  status: String! @default(value: "reading")
-  userUID: String!
+type Category @table {
+  name: String! @unique
+}
+
+type NoteCategory @table(key: ["note", "category"]) {
+  note: Note!
+  category: Category!
 }

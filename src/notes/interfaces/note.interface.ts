@@ -24,36 +24,52 @@ export interface Content {
   ops: ContentOperation[];
 }
 
+export interface Tag {
+  id?: string;
+  name: string;
+}
+
+export interface Category {
+  id?: string;
+  name: string;
+}
+
+export interface NoteRevision {
+  id?: string;
+  noteId: string;
+  version: number;
+  title: string;
+  content?: Content;
+  searchableText?: string;
+  savedAt: Date;
+}
+
 export interface Note {
-  // Core identity
-  id: string;
+  id?: string;
 
   // Content
   title: string;
-  content: Content;
+  content?: Content;
+  searchableText?: string;
 
   // Metadata
-  createdBy: string;
-  createdTime: Date;
-  updatedTime: Date;
+  userUID: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 
   // Organization
-  tags?: string[];
-  category?: string;
-  isFavorite?: boolean;
+  tags?: Tag[];
+  categories?: Category[];
+  isFavorite: boolean;
 
   // Status
   status: NoteStatus;
-  isDeleted?: boolean;
-  deletedTime?: Date;
+  isDeleted: boolean;
 
-  // Collaboration (for future)
-  sharedWith?: string[];
-  permissions?: NotePermission;
+  // Collaboration
+  permissions: NotePermission;
 
-  // Version control (optional, for future)
+  // Version control
   version?: number;
-
-  // Search optimization
-  searchableText?: string;
 }

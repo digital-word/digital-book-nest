@@ -7,13 +7,14 @@ query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
   ) {
     id
     title
-    category
     isFavorite
     status
     permissions
     version
     createdAt
     updatedAt
+    tags: tags_via_NoteTag { name }
+    categories: categories_via_NoteCategory { name }
   }
 }
 
@@ -25,12 +26,13 @@ query NoteDetail($id: UUID) @auth(level: NO_ACCESS) {
     title
     content
     searchableText
-    category
     isFavorite
     status
     permissions
     version
     createdAt
     updatedAt
+    tags: tags_via_NoteTag { name }
+    categories: categories_via_NoteCategory { name }
   }
 }

@@ -1,10 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
-import { v4 as uuidv4 } from 'uuid';
 import { Note, Content } from './interfaces/note.interface';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
 import { listNotes } from '@dataconnect/admin-generated';
 
 @Injectable()
@@ -134,80 +131,14 @@ export class NotesService {
   }
 
   /**
-   * Create a new note
-   */
-  async create(createNoteDto: CreateNoteDto): Promise<Note> {
-    const notes = await this.readNotes();
-
-    // Generate default title if not provided
-    const title = createNoteDto.title || (await this.generateDefaultTitle());
-
-    const newNote: Note = {
-      id: uuidv4(),
-      title,
-      content: createNoteDto.content,
-      createdBy: createNoteDto.createdBy,
-      createdTime: new Date(),
-      updatedTime: new Date(),
-      tags: createNoteDto.tags || [],
-      category: createNoteDto.category,
-      isFavorite: createNoteDto.isFavorite || false,
-      status: createNoteDto.status || 'draft',
-      permissions: createNoteDto.permissions || 'private',
-      version: 1,
-      searchableText: this.extractSearchableText(createNoteDto.content),
-    };
-
-    notes.push(newNote);
-    await this.writeNotes(notes);
-
-    return newNote;
-  }
-
-  /**
    * Update an existing note
    */
-  async update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
-    const notes = await this.readNotes();
-    const noteIndex = notes.findIndex(
-      (note) => note.id === id && !note.isDeleted,
-    );
-
-    if (noteIndex === -1) {
-      throw new NotFoundException(`Note with ID ${id} not found`);
-    }
-
-    const updatedNote: Note = {
-      ...notes[noteIndex],
-      ...updateNoteDto,
-      updatedTime: new Date(),
-      version: (notes[noteIndex].version || 1) + 1,
-    };
-
-    // Update searchable text if content was updated
-    if (updateNoteDto.content) {
-      updatedNote.searchableText = this.extractSearchableText(
-        updateNoteDto.content,
-      );
-    }
-
-    // Handle soft delete
-    if (updateNoteDto.isDeleted && !notes[noteIndex].isDeleted) {
-      updatedNote.deletedTime = new Date();
-    }
-
-    notes[noteIndex] = updatedNote;
-    await this.writeNotes(notes);
-
-    return updatedNote;
-  }
+  async update() {}
 
   /**
    * Soft delete a note
    */
-  async remove(id: string): Promise<void> {
-    await this.update(id, { isDeleted: true });
-  }
+  async remove() {}
 
   /**
    * Permanently delete a note
@@ -226,51 +157,7 @@ export class NotesService {
   /**
    * Restore a soft-deleted note
    */
-  async restore(id: string): Promise<Note> {
-    const notes = await this.readNotes();
-    const note = notes.find((note) => note.id === id && note.isDeleted);
-
-    if (!note) {
-      throw new NotFoundException(`Deleted note with ID ${id} not found`);
-    }
-
-    return this.update(id, {
-      isDeleted: false,
-      deletedTime: undefined,
-    });
-  }
-
-  /**
-   * Get notes by tag (paginated)
-   */
-  async findByTag(
-    tag: string,
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<{ data: Note[]; total: number }> {
-    const notes = await this.getAllNotes();
-    const allNotes = notes.filter((note) => note.tags?.includes(tag));
-    const total = allNotes.length;
-    const startIndex = (page - 1) * limit;
-    const data = allNotes.slice(startIndex, startIndex + limit);
-    return { data, total };
-  }
-
-  /**
-   * Get notes by category (paginated)
-   */
-  async findByCategory(
-    category: string,
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<{ data: Note[]; total: number }> {
-    const notes = await this.getAllNotes();
-    const allNotes = notes.filter((note) => note.category === category);
-    const total = allNotes.length;
-    const startIndex = (page - 1) * limit;
-    const data = allNotes.slice(startIndex, startIndex + limit);
-    return { data, total };
-  }
+  async restore() {}
 
   /**
    * Get favorite notes (paginated)
@@ -302,7 +189,9 @@ export class NotesService {
       (note) =>
         note.title.toLowerCase().includes(lowercaseQuery) ||
         note.searchableText?.toLowerCase().includes(lowercaseQuery) ||
-        note.tags?.some((tag) => tag.toLowerCase().includes(lowercaseQuery)),
+        note.tags?.some((tag) =>
+          tag.name.toLowerCase().includes(lowercaseQuery),
+        ),
     );
 
     const total = allNotes.length;

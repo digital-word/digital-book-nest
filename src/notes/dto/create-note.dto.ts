@@ -35,7 +35,7 @@ export class CreateNoteDto {
   })
   @IsString()
   @IsNotEmpty()
-  createdBy!: string;
+  userUID!: string;
 
   @ApiPropertyOptional({
     description: 'Array of tags',
@@ -46,10 +46,14 @@ export class CreateNoteDto {
   @IsString({ each: true })
   tags?: string[];
 
-  @ApiPropertyOptional({ description: 'Note category', example: 'Development' })
+  @ApiPropertyOptional({
+    description: 'Array of category names to associate',
+    example: ['work', 'research'],
+  })
   @IsOptional()
-  @IsString()
-  category?: string;
+  @IsArray()
+  @IsString({ each: true })
+  categories?: string[];
 
   @ApiPropertyOptional({
     description: 'Mark as favorite',
