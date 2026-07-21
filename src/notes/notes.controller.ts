@@ -4,8 +4,6 @@ import {
   Post,
   Put,
   Delete,
-  Body,
-  Param,
   Query,
   HttpCode,
   HttpStatus,
@@ -18,8 +16,7 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { NotesService } from './notes.service';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+
 import { Note } from './interfaces/note.interface';
 import { SingleResponse, ListResponse, ListQueryDto } from '../common';
 
@@ -38,11 +35,10 @@ export class NotesController {
     description: 'Retrieve all notes with pagination',
   })
   @ApiResponse({ status: 200, description: 'Notes retrieved successfully' })
-  async findAll(@Query() query: ListQueryDto): Promise<ListResponse<Note>> {
-    const { data, total } = await this.notesService.findAll(
+  async findPage(@Query() query: ListQueryDto): Promise<ListResponse<Note>> {
+    const { data, total } = await this.notesService.findPage(
       query.page,
       query.limit,
-      query.includeDeleted,
     );
 
     return new ListResponse(
@@ -66,21 +62,9 @@ export class NotesController {
     status: 200,
     description: 'Favorite notes retrieved successfully',
   })
-  async findFavorites(
-    @Query() query: ListQueryDto,
-  ): Promise<ListResponse<Note>> {
-    const { data, total } = await this.notesService.findFavorites(
-      query.page,
-      query.limit,
-    );
-
-    return new ListResponse(
-      data,
-      query.page,
-      query.limit,
-      total,
-      'Favorite notes retrieved successfully',
-    );
+  findFavorites(): Promise<ListResponse<Note>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -97,23 +81,9 @@ export class NotesController {
     status: 200,
     description: 'Search results retrieved successfully',
   })
-  async search(
-    @Query('q') q: string,
-    @Query() query: ListQueryDto,
-  ): Promise<ListResponse<Note>> {
-    const { data, total } = await this.notesService.search(
-      q,
-      query.page,
-      query.limit,
-    );
-
-    return new ListResponse(
-      data,
-      query.page,
-      query.limit,
-      total,
-      'Search results retrieved successfully',
-    );
+  search(): Promise<ListResponse<Note>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -127,9 +97,9 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 200, description: 'Note retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  async findOne(@Param('id') id: string): Promise<SingleResponse<Note>> {
-    const note = await this.notesService.findOne(id);
-    return new SingleResponse(note, 'Note retrieved successfully');
+  findOne(): Promise<SingleResponse<Note>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -143,11 +113,9 @@ export class NotesController {
   })
   @ApiResponse({ status: 201, description: 'Note created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  async create(
-    @Body() createNoteDto: CreateNoteDto,
-  ): Promise<SingleResponse<any>> {
-    const note = await Promise.resolve();
-    return new SingleResponse(note, 'Note created successfully');
+  create(): Promise<SingleResponse<any>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -161,12 +129,9 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 200, description: 'Note updated successfully' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  async update(
-    @Param('id') id: string,
-    @Body() updateNoteDto: UpdateNoteDto,
-  ): Promise<SingleResponse<any>> {
-    const note = await Promise.resolve();
-    return new SingleResponse(note, 'Note updated successfully');
+  update(): Promise<SingleResponse<any>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -180,9 +145,9 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 200, description: 'Note restored successfully' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  async restore(@Param('id') id: string): Promise<SingleResponse<any>> {
-    const note = await Promise.resolve();
-    return new SingleResponse(note, 'Note restored successfully');
+  restore(): Promise<SingleResponse<any>> {
+    // TODO
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -197,7 +162,8 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 204, description: 'Note deleted successfully' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  async remove(@Param('id') id: string): Promise<void> {
+  remove(): Promise<void> {
+    // TODO
     return Promise.resolve();
   }
 
@@ -213,7 +179,8 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 204, description: 'Note permanently deleted' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  async permanentlyDelete(@Param('id') id: string): Promise<void> {
-    return this.notesService.permanentlyDelete(id);
+  permanentlyDelete(): Promise<void> {
+    // TODO
+    return Promise.resolve();
   }
 }

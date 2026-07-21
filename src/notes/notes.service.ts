@@ -1,33 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { promises as fs } from 'node:fs';
-import { join } from 'node:path';
+import { Injectable } from '@nestjs/common';
 import { Note, Content } from './interfaces/note.interface';
-import { listNotes } from '@dataconnect/admin-generated';
+import { listNotes, countNotes } from '@dataconnect/admin-generated';
 
 @Injectable()
 export class NotesService {
-  private readonly dataPath = join(process.cwd(), 'data', 'notes.json');
-
-  /**
-   * Read all notes from JSON file
-   */
-  private async readNotes(): Promise<Note[]> {
-    try {
-      const data = await fs.readFile(this.dataPath, 'utf-8');
-      return JSON.parse(data) as Note[];
-    } catch {
-      // If file doesn't exist or is empty, return empty array
-      return [];
-    }
-  }
-
-  /**
-   * Write notes to JSON file
-   */
-  private async writeNotes(notes: Note[]): Promise<void> {
-    await fs.writeFile(this.dataPath, JSON.stringify(notes, null, 2), 'utf-8');
-  }
-
   /**
    * Extract plain text from content for search optimization
    */
@@ -62,102 +38,70 @@ export class NotesService {
   }
 
   /**
-   * Get all notes (paginated)
+   * Get a single page of notes using server-side pagination.
+   *
+   * Delegates offset/limit directly to Firebase DataConnect, so only the
+   * requested page is transferred — no in-memory slicing needed.
+   *
+   * @param page  1-based page number requested by the caller
+   * @param limit Maximum number of notes per page
    */
-  async findAll(
+  async findPage(
     page: number = 1,
     limit: number = 10,
-    includeDeleted = false,
   ): Promise<{ data: Note[]; total: number }> {
     const offset = (page - 1) * limit;
 
-    if (includeDeleted) {
-      // includeDeleted needs getAllNotes since ListNotes filters isDeleted=false
-      const allNotes = await this.getAllNotes(true);
-      const total = allNotes.length;
-      const data = allNotes.slice(offset, offset + limit);
-      return { data, total };
-    }
-
-    const result = await listNotes({ limit, offset });
-    const data = result.data.notes as unknown as Note[];
-
-    // total is unknown without a count query — return data.length as floor
-    return { data, total: data.length + offset };
+    const [pageResult, countResult] = await Promise.all([
+      listNotes({ limit, offset }),
+      countNotes(),
+    ]);
+    const data = pageResult.data.notes as unknown as Note[];
+    const total = countResult.data.notes[0]._count;
+    return { data, total };
   }
 
   /**
    * Get a single note by ID
    */
-  async findOne(id: string): Promise<Note> {
-    const notes = await this.readNotes();
-    const note = notes.find((note) => note.id === id && !note.isDeleted);
-
-    if (!note) {
-      throw new NotFoundException(`Note with ID ${id} not found`);
-    }
-
-    return note;
+  async findOne() {
+    // TODO
   }
 
   /**
    * Generate a unique default title
    */
-  private async generateDefaultTitle(): Promise<string> {
-    const notes = await this.readNotes();
-
-    const untitledPattern = /^Untitled( \d+)?$/;
-    const untitledNumberPattern = /^Untitled (\d+)$/;
-
-    // Find all "Untitled" notes
-    const untitledNotes = notes.filter((note) =>
-      untitledPattern.exec(note.title),
-    );
-
-    if (untitledNotes.length === 0) {
-      return 'Untitled';
-    }
-
-    // Find the highest number
-    const numbers = untitledNotes
-      .map((note) => {
-        const match = untitledNumberPattern.exec(note.title);
-        return match ? Number.parseInt(match[1], 10) : 0;
-      })
-      .filter((num) => !Number.isNaN(num));
-
-    const maxNumber = numbers.length > 0 ? Math.max(...numbers) : 0;
-    return `Untitled ${maxNumber + 1}`;
+  private async generateDefaultTitle() {
+    // TODO
   }
 
   /**
    * Update an existing note
    */
-  async update() {}
+  async update() {
+    // TODO
+  }
 
   /**
    * Soft delete a note
    */
-  async remove() {}
+  async remove() {
+    // TODO
+  }
 
   /**
    * Permanently delete a note
    */
-  async permanentlyDelete(id: string): Promise<void> {
-    const notes = await this.readNotes();
-    const filteredNotes = notes.filter((note) => note.id !== id);
-
-    if (notes.length === filteredNotes.length) {
-      throw new NotFoundException(`Note with ID ${id} not found`);
-    }
-
-    await this.writeNotes(filteredNotes);
+  async permanentlyDelete() {
+    // TODO
   }
 
   /**
    * Restore a soft-deleted note
    */
-  async restore() {}
+  async restore() {
+    // TODO
+  }
 
   /**
    * Get favorite notes (paginated)

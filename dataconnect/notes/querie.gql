@@ -1,3 +1,9 @@
+query CountNotes @auth(level: NO_ACCESS) {
+  notes(where: { isDeleted: { eq: false } }) {
+    _count
+  }
+}
+
 query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
   notes(
     limit: $limit
@@ -13,15 +19,17 @@ query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
     version
     createdAt
     updatedAt
-    tags: tags_via_NoteTag { name }
-    categories: categories_via_NoteCategory { name }
+    tags: tags_via_NoteTag {
+      name
+    }
+    categories: categories_via_NoteCategory {
+      name
+    }
   }
 }
 
 query NoteDetail($id: UUID) @auth(level: NO_ACCESS) {
-  notes(
-    where: { id: { eq: $id }, isDeleted: { eq: false } }
-  ) {
+  notes(where: { id: { eq: $id }, isDeleted: { eq: false } }) {
     id
     title
     content
@@ -32,7 +40,11 @@ query NoteDetail($id: UUID) @auth(level: NO_ACCESS) {
     version
     createdAt
     updatedAt
-    tags: tags_via_NoteTag { name }
-    categories: categories_via_NoteCategory { name }
+    tags: tags_via_NoteTag {
+      name
+    }
+    categories: categories_via_NoteCategory {
+      name
+    }
   }
 }
