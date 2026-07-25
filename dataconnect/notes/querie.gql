@@ -4,12 +4,12 @@ query CountNotes @auth(level: NO_ACCESS) {
   }
 }
 
-query ListNotes($limit: Int, $offset: Int) @auth(level: NO_ACCESS) {
+query ListNotes($limit: Int, $offset: Int, $order: OrderDirection) @auth(level: NO_ACCESS) {
   notes(
     limit: $limit
     offset: $offset
     where: { isDeleted: { eq: false } }
-    orderBy: [{ updatedAt: DESC }]
+    orderBy: [{ updatedAt: $order }]
   ) {
     id
     title

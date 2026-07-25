@@ -31,15 +31,12 @@ export class NotesController {
    */
   @Get()
   @ApiOperation({
-    summary: 'Get all notes',
+    summary: 'Get a single page of notes',
     description: 'Retrieve all notes with pagination',
   })
   @ApiResponse({ status: 200, description: 'Notes retrieved successfully' })
   async findPage(@Query() query: ListQueryDto): Promise<ListResponse<Note>> {
-    const { data, total } = await this.notesService.findPage(
-      query.page,
-      query.limit,
-    );
+    const { data, total } = await this.notesService.findPage(query);
 
     return new ListResponse(
       data,

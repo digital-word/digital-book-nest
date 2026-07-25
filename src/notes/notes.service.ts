@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Note, Content } from './interfaces/note.interface';
-import { listNotes, countNotes } from '@dataconnect/admin-generated';
+import {
+  listNotes,
+  countNotes,
+  OrderDirection,
+} from '@dataconnect/admin-generated';
+import { ListQueryDto } from '../common/dto/list-query.dto';
 
 @Injectable()
 export class NotesService {
@@ -47,13 +52,12 @@ export class NotesService {
    * @param limit Maximum number of notes per page
    */
   async findPage(
-    page: number = 1,
-    limit: number = 10,
+    query: ListQueryDto,
   ): Promise<{ data: Note[]; total: number }> {
-    const offset = (page - 1) * limit;
+    const offset = (query.page - 1) * query.limit;
 
     const [pageResult, countResult] = await Promise.all([
-      listNotes({ limit, offset }),
+      listNotes({ limit: query.limit, offset, order: query.sortOrder }),
       countNotes(),
     ]);
     const data = pageResult.data.notes as unknown as Note[];

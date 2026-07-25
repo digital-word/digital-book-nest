@@ -35,6 +35,7 @@ async function bootstrap() {
       'Backend API for Digital Book platform - a comprehensive application for book enthusiasts. Currently implements the Notes feature with rich text editing using Quill Delta format.',
     )
     .setVersion('1.0')
+    .addServer('http://localhost:3000', 'Local development')
     .addTag('notes', 'Notes management endpoints')
     .build();
   const document = SwaggerModule.createDocument(app, config);

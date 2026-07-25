@@ -6,36 +6,30 @@ import {
   IsBoolean,
   IsEnum,
   IsArray,
+  ValidateNested,
 } from 'class-validator';
-import type {
-  Content,
-  NoteStatus,
-  NotePermission,
-} from '../interfaces/note.interface';
+import { Type } from 'class-transformer';
+import { NoteStatus, NotePermission } from '../interfaces/note.interface';
+import { ContentDto } from './content.dto';
 
 export class CreateNoteDto {
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Note title (defaults to "Untitled" if not provided)',
     example: 'My First Note',
   })
-  @IsOptional()
   @IsString()
-  title?: string;
+  @IsNotEmpty()
+  title!: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Rich text content in Quill Delta format',
+    type: () => ContentDto,
     example: { ops: [{ insert: 'Hello World\n' }] },
   })
-  @IsNotEmpty()
-  content!: Content;
-
-  @ApiProperty({
-    description: 'User ID who created the note',
-    example: 'user123',
-  })
-  @IsString()
-  @IsNotEmpty()
-  userUID!: string;
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ContentDto)
+  content?: ContentDto;
 
   @ApiPropertyOptional({
     description: 'Array of tags',
@@ -55,30 +49,32 @@ export class CreateNoteDto {
   @IsString({ each: true })
   categories?: string[];
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Mark as favorite',
     example: false,
     default: false,
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsBoolean()
-  isFavorite?: boolean;
+  isFavorite!: boolean;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Note status',
-    enum: ['draft', 'published', 'archived'],
-    default: 'draft',
+    enum: NoteStatus,
+    enumName: 'NoteStatus',
+    default: NoteStatus.DRAFT,
   })
-  @IsOptional()
-  @IsEnum(['draft', 'published', 'archived'])
-  status?: NoteStatus;
+  @IsNotEmpty()
+  @IsEnum(NoteStatus)
+  status!: NoteStatus;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Permission level',
-    enum: ['private', 'shared', 'public'],
-    default: 'private',
+    enum: NotePermission,
+    enumName: 'NotePermission',
+    default: NotePermission.PRIVATE,
   })
-  @IsOptional()
-  @IsEnum(['private', 'shared', 'public'])
-  permissions?: NotePermission;
+  @IsNotEmpty()
+  @IsEnum(NotePermission)
+  permissions!: NotePermission;
 }

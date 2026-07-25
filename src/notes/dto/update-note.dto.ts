@@ -6,13 +6,11 @@ import {
   IsEnum,
   IsArray,
   IsDate,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import type {
-  Content,
-  NoteStatus,
-  NotePermission,
-} from '../interfaces/note.interface';
+import { NoteStatus, NotePermission } from '../interfaces/note.interface';
+import { ContentDto } from './content.dto';
 
 export class UpdateNoteDto {
   @ApiPropertyOptional({
@@ -25,10 +23,13 @@ export class UpdateNoteDto {
 
   @ApiPropertyOptional({
     description: 'Rich text content in Quill Delta format',
+    type: () => ContentDto,
     example: { ops: [{ insert: 'Updated content\n' }] },
   })
   @IsOptional()
-  content?: Content;
+  @ValidateNested()
+  @Type(() => ContentDto)
+  content?: ContentDto;
 
   @ApiPropertyOptional({
     description: 'Array of tags',
@@ -51,18 +52,20 @@ export class UpdateNoteDto {
 
   @ApiPropertyOptional({
     description: 'Note status',
-    enum: ['draft', 'published', 'archived'],
+    enum: NoteStatus,
+    enumName: 'NoteStatus',
   })
   @IsOptional()
-  @IsEnum(['draft', 'published', 'archived'])
+  @IsEnum(NoteStatus)
   status?: NoteStatus;
 
   @ApiPropertyOptional({
     description: 'Permission level',
-    enum: ['private', 'shared', 'public'],
+    enum: NotePermission,
+    enumName: 'NotePermission',
   })
   @IsOptional()
-  @IsEnum(['private', 'shared', 'public'])
+  @IsEnum(NotePermission)
   permissions?: NotePermission;
 
   @ApiPropertyOptional({ description: 'Soft delete flag', example: false })

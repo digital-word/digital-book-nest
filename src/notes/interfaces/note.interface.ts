@@ -1,5 +1,36 @@
-export type NoteStatus = 'draft' | 'published' | 'archived';
-export type NotePermission = 'private' | 'shared' | 'public';
+export enum NoteStatus {
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+  ARCHIVED = 'archived',
+}
+
+export enum NotePermission {
+  PRIVATE = 'private',
+  SHARED = 'shared',
+  PUBLIC = 'public',
+}
+
+export enum ContentAlign {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
+  JUSTIFY = 'justify',
+}
+
+export enum ContentList {
+  ORDERED = 'ordered',
+  BULLET = 'bullet',
+}
+
+/** Heading levels 1–6; value is the numeric level used by Quill Delta. */
+export enum ContentHeader {
+  H1 = 1,
+  H2 = 2,
+  H3 = 3,
+  H4 = 4,
+  H5 = 5,
+  H6 = 6,
+}
 
 export interface ContentOperation {
   insert: string | { image: string } | { video: string };
@@ -13,9 +44,9 @@ export interface ContentOperation {
     font?: string;
     size?: string;
     link?: string;
-    align?: 'left' | 'center' | 'right' | 'justify';
-    list?: 'ordered' | 'bullet';
-    header?: 1 | 2 | 3 | 4 | 5 | 6;
+    align?: ContentAlign;
+    list?: ContentList;
+    header?: ContentHeader;
     indent?: number;
   };
 }

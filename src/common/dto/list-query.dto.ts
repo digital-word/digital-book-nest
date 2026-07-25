@@ -9,6 +9,7 @@ import {
   IsEnum,
   IsBoolean,
 } from 'class-validator';
+import { OrderDirection } from '@dataconnect/admin-generated';
 
 /**
  * Common query parameters for list endpoints
@@ -52,12 +53,14 @@ export class ListQueryDto {
 
   @ApiPropertyOptional({
     description: 'Sort order',
-    enum: ['asc', 'desc'],
-    default: 'desc',
+    enum: OrderDirection,
+    default: OrderDirection.ASC,
+    enumName: 'SortOrder',
+    example: OrderDirection.ASC,
   })
   @IsOptional()
-  @IsEnum(['asc', 'desc'])
-  sortOrder?: 'asc' | 'desc' = 'desc';
+  @IsEnum(OrderDirection)
+  sortOrder?: OrderDirection;
 
   // Filtering
   @ApiPropertyOptional({
