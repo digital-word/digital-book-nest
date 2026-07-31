@@ -1,14 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Note, Content } from './interfaces/note.interface';
-import {
-  listNotes,
-  countNotes,
-  OrderDirection,
-} from '@dataconnect/admin-generated';
+import { listNotes, countNotes } from '@dataconnect/admin-generated';
 import { ListQueryDto } from '../common/dto/list-query.dto';
 
 @Injectable()
 export class NotesService {
+  private readonly logger = new Logger(NotesService.name);
   /**
    * Extract plain text from content for search optimization
    */
@@ -54,15 +51,25 @@ export class NotesService {
   async findPage(
     query: ListQueryDto,
   ): Promise<{ data: Note[]; total: number }> {
+    this.logger.debug(`findPage called: ${JSON.stringify(query)}`);
     const offset = (query.page - 1) * query.limit;
+    try {
+      const [pageResult, countResult] = await Promise.all([
+        listNotes({ limit: query.limit, offset, order: query.sortOrder }),
+        countNotes(),
+      ]);
+      const data = pageResult.data.notes as unknown as Note[];
+      const total = countResult.data.notes[0]._count;
 
-    const [pageResult, countResult] = await Promise.all([
-      listNotes({ limit: query.limit, offset, order: query.sortOrder }),
-      countNotes(),
-    ]);
-    const data = pageResult.data.notes as unknown as Note[];
-    const total = countResult.data.notes[0]._count;
-    return { data, total };
+      this.logger.log(`findPage result: total=${total}`);
+      return { data, total };
+    } catch (error) {
+      this.logger.error(
+        'findPage failed',
+        error instanceof Error ? error.stack : error,
+      );
+      throw error;
+    }
   }
 
   /**
