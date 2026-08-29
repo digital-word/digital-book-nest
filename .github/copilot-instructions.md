@@ -216,6 +216,47 @@ import { helper } from '../utils';
   chore: update dependencies
   ```
 
+## Local Development Setup
+
+### Environment Files
+The app requires `.env` / `.env.local` (gitignored, not committed) with:
+```
+NODE_ENV=develop
+FRONTEND_URL=http://localhost:4200
+WEB_API_KEY=<firebase-web-api-key>
+AUTH_DOMAIN=<project-id>.firebaseapp.com
+GCP_PROJECT_ID=<firebase-project-id>
+```
+Missing these files causes frontend errors related to project ID even when the backend
+and emulators are running fine.
+
+### Firebase Emulators
+Start with `firebase emulators:start` or a pinned version:
+```
+npx -y firebase-tools@latest emulators:start --project <project-id>
+```
+Default ports: hub=4400, ui=4000, logging=4500, functions=5001, dataconnect(SQL)=9399, postgres=5432.
+
+### Troubleshooting: Emulator "port taken" errors
+The Firebase SQL Connect extension's "Start emulators" button can fail silently -
+the Runtime Status panel only shows a generic
+`Failed to make request to http://127.0.0.1:4400/emulators`, not the real cause.
+Always run `firebase emulators:start` directly in a terminal to see the actual error
+(e.g. `Could not start SQL Connect Emulator, port taken.`).
+
+This is usually caused by a previous emulator process still running in the background
+(detached child/Java processes can survive terminal close). Resolve with:
+```powershell
+# 1. Find PIDs holding the emulator ports
+netstat -ano | findstr "4400 4000 5001 9399 4500 5432"
+
+# 2. Kill the stale process(es) (PID is the last column)
+Stop-Process -Id <PID1>,<PID2> -Force
+
+# 3. Retry
+firebase emulators:start
+```
+
 ## Future Considerations
 - Database migration (PostgreSQL planned)
 - Authentication & authorization
@@ -232,5 +273,5 @@ import { helper } from '../utils';
 
 ---
 
-**Last Updated**: April 30, 2026
+**Last Updated**: August 30, 2026
 **Maintainer**: User
