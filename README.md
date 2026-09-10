@@ -5,6 +5,7 @@
 Digital Book is a comprehensive application designed to offer a rich set of features for book enthusiasts and knowledge workers. The platform provides an enjoyable reading experience with integrated tools for PDFs, search capabilities, AI-powered assistance, and note-taking functionality.
 
 This backend API currently implements the **Notes feature** - a sophisticated note management system with rich text editing using Quill Delta format. The Notes feature includes:
+
 - Rich text editing with Quill Delta format
 - Organization with tags and categories
 - Soft deletion and favorites
@@ -15,6 +16,7 @@ As the project grows, features like Notes can evolve into independent microservi
 Built with [NestJS](https://nestjs.com) - a progressive Node.js framework for building efficient and scalable server-side applications.
 
 ### Tech Stack
+
 - **Framework**: NestJS
 - **Language**: TypeScript
 - **Storage**: JSON files (temporary, database migration planned)
@@ -47,6 +49,7 @@ This project uses **Swagger/OpenAPI** for interactive API documentation.
 ### Access Documentation
 
 Once the server is running, visit:
+
 - **Swagger UI**: [http://localhost:3000/api](http://localhost:3000/api)
 - **OpenAPI JSON**: [http://localhost:3000/api-json](http://localhost:3000/api-json)
 
@@ -86,16 +89,19 @@ Using Google Cloud with Firebase.
 - [Users](https://console.firebase.google.com/project/digital-book-fbaa0/authentication/users)
 
 ### Some Docs
+
 - [Sign in users with email and password](https://docs.cloud.google.com/identity-platform/docs/sign-in-user-email)
 - [SQL connect](https://firebase.google.com/docs/sql-connect)
 
 ### Some Commands
+
 `firebase login` <br>
 `firebase login --reauth` <br>
 `firebase login:ci` (generate a new token) <br>
 `firebase dataconnect:sql:shell --project digital-book-fbaa0` (Open Cloud SQL Shell) <br>
-`gcloud auth application-default login` (This re-authenticates ADC for the admin. For local development)
+`gcloud auth application-default login` (This re-authenticates ADC for the admin. For local development) <br>
+`firebase dataconnect:sdk:generate` (generate new schema, queries, mutations)
 
 ## License
 
-MIT 
+MIT
