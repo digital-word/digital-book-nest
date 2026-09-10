@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -18,7 +19,11 @@ import {
 import { NotesService } from './notes.service';
 
 import { Note } from './interfaces/note.interface';
+import { CreateNoteDto } from './dto/create-note.dto';
 import { SingleResponse, ListResponse, ListQueryDto } from '../common';
+
+// TODO: replace with the authenticated user's UID once an auth guard exists
+const TEMP_USER_UID = 'QMhSiJxnVRVfNmU3x87aEvqKmo12';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -110,9 +115,9 @@ export class NotesController {
   })
   @ApiResponse({ status: 201, description: 'Note created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  create(): Promise<SingleResponse<any>> {
-    // TODO
-    return Promise.reject(new Error('Not implemented'));
+  async create(@Body() dto: CreateNoteDto): Promise<SingleResponse<string>> {
+    const message = await this.notesService.noteInsert(dto, TEMP_USER_UID);
+    return new SingleResponse(message, 'Note created successfully');
   }
 
   /**

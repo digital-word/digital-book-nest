@@ -1,0 +1,19 @@
+mutation CreateNote(
+  $title: String!
+  $content: Any
+  $userUID: String!
+  $isFavorite: Boolean!
+  $status: NoteStatus!
+  $permissions: NotePermission!
+) @auth(level: NO_ACCESS) {
+  note_insert(
+    data: {
+      title: $title
+      content: $content
+      userUID: $userUID
+      isFavorite: $isFavorite
+      status: $status
+      permissions: $permissions
+    }
+  )
+}

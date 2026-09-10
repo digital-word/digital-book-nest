@@ -1,7 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Note, Content } from './interfaces/note.interface';
-import { listNotes, countNotes } from '@dataconnect/admin-generated';
+import {
+  listNotes,
+  countNotes,
+  createNote,
+  NoteStatus as DataConnectNoteStatus,
+  NotePermission as DataConnectNotePermission,
+} from '@dataconnect/admin-generated';
 import { ListQueryDto } from '../common/dto/list-query.dto';
+import { CreateNoteDto } from './dto/create-note.dto';
 
 @Injectable()
 export class NotesService {
@@ -64,10 +71,34 @@ export class NotesService {
       this.logger.log(`findPage result: total=${total}`);
       return { data, total };
     } catch (error) {
-      this.logger.error(
-        'findPage failed',
-        error instanceof Error ? error.stack : error,
-      );
+      this.logger.error('findPage failed', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new note.
+   *
+   * @param dto     Validated note payload from the request body
+   * @param userUID Authenticated user's UID (owner of the note)
+   */
+  async noteInsert(dto: CreateNoteDto, userUID: string): Promise<string> {
+    this.logger.debug(`noteInsert called: ${JSON.stringify(dto)}`);
+    try {
+      const result = await createNote({
+        title: dto.title,
+        content: dto.content,
+        userUID,
+        isFavorite: dto.isFavorite,
+        status: dto.status as unknown as DataConnectNoteStatus,
+        permissions: dto.permissions as unknown as DataConnectNotePermission,
+      });
+
+      const id = result.data.note_insert.id;
+      this.logger.log(`noteInsert result: id=${id}`);
+      return `Note "${dto.title}" was created successfully`;
+    } catch (error) {
+      this.logger.error('noteInsert failed', error);
       throw error;
     }
   }
