@@ -75,31 +75,37 @@ export interface NoteRevision {
   savedAt: Date;
 }
 
-export interface Note {
+/**
+ * Note shape returned by list-style queries
+ */
+export interface NoteItem {
   id?: string;
-
-  // Content
   title: string;
-  content?: Content;
-  searchableText?: string;
 
   // Metadata
-  userUID: string;
   createdAt: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
 
   // Organization
   tags?: Tag[];
   categories?: Category[];
   isFavorite: boolean;
 
-  // Status
   status: NoteStatus;
-  isDeleted: boolean;
-
-  // Collaboration
   permissions: NotePermission;
+}
+
+/**
+ * Note shape returned by details-style queries
+ */
+export interface NoteDetail extends NoteItem {
+  content?: Content;
+  searchableText?: string;
+
+  // Metadata
+  userUID: string;
+  deletedAt?: Date;
+  isDeleted: boolean;
 
   // Version control
   version?: number;
