@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { NotesService } from './notes.service';
 
-import { Note } from './interfaces/note.interface';
+import { NoteDetail, NoteItem } from './interfaces/note.interface';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { SingleResponse, ListResponse, ListQueryDto } from '../common';
 
@@ -40,7 +40,9 @@ export class NotesController {
     description: 'Retrieve all notes with pagination',
   })
   @ApiResponse({ status: 200, description: 'Notes retrieved successfully' })
-  async findPage(@Query() query: ListQueryDto): Promise<ListResponse<Note>> {
+  async findPage(
+    @Query() query: ListQueryDto,
+  ): Promise<ListResponse<NoteItem>> {
     const { data, total } = await this.notesService.findPage(query);
 
     return new ListResponse(
@@ -64,7 +66,7 @@ export class NotesController {
     status: 200,
     description: 'Favorite notes retrieved successfully',
   })
-  findFavorites(): Promise<ListResponse<Note>> {
+  findFavorites(): Promise<ListResponse<NoteItem>> {
     // TODO
     return Promise.reject(new Error('Not implemented'));
   }
@@ -83,7 +85,7 @@ export class NotesController {
     status: 200,
     description: 'Search results retrieved successfully',
   })
-  search(): Promise<ListResponse<Note>> {
+  search(): Promise<ListResponse<NoteItem>> {
     // TODO
     return Promise.reject(new Error('Not implemented'));
   }
@@ -99,7 +101,7 @@ export class NotesController {
   @ApiParam({ name: 'id', description: 'Note ID' })
   @ApiResponse({ status: 200, description: 'Note retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Note not found' })
-  findOne(): Promise<SingleResponse<Note>> {
+  findOne(): Promise<SingleResponse<NoteDetail>> {
     // TODO
     return Promise.reject(new Error('Not implemented'));
   }
