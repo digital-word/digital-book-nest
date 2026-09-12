@@ -36,7 +36,6 @@ export function toDomainNoteItem(dc: DataConnectNoteListItem): NoteItem {
     isFavorite: dc.isFavorite,
     status: toDomainNoteStatus(dc.status),
     permissions: toDomainNotePermission(dc.permissions),
-    version: dc.version ?? undefined,
     createdAt: new Date(dc.createdAt),
     updatedAt: dc.updatedAt ? new Date(dc.updatedAt) : undefined,
     tags: dc.tags,
