@@ -25,7 +25,14 @@ Built with [NestJS](https://nestjs.com) - a progressive Node.js framework for bu
 
 ## Project setup
 
+This project uses [Volta](https://volta.sh/) to automatically manage the correct Node.js version.
+
 ```bash
+# Install Volta
+$ curl https://get.volta.sh | bash
+
+# Open a new terminal, then install dependencies.
+# Volta will automatically download and use the Node version pinned in package.json.
 $ npm install
 ```
 
