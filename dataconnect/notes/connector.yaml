@@ -1,6 +1,6 @@
 connectorId: notes
 generate:
   adminNodeSdk:
-    - outputDir: ..\src\dataconnect-admin-generated
-      package: "@dataconnect/admin-generated"
-      packageJsonDir: ..\..
+    - outputDir: ../src/dataconnect-admin-generated
+      package: '@dataconnect/admin-generated'
+      packageJsonDir: ../..
