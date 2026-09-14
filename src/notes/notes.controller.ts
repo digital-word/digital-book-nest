@@ -21,9 +21,8 @@ import { NotesService } from './notes.service';
 import { NoteDetail, NoteItem } from './interfaces/note.interface';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { SingleResponse, ListResponse, ListQueryDto } from '../common';
-
-// TODO: replace with the authenticated user's UID once an auth guard exists
-const TEMP_USER_UID = 'QMhSiJxnVRVfNmU3x87aEvqKmo12';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import type { DecodedIdToken } from 'firebase-admin/auth';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -117,8 +116,11 @@ export class NotesController {
   })
   @ApiResponse({ status: 201, description: 'Note created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  async create(@Body() dto: CreateNoteDto): Promise<SingleResponse<string>> {
-    const message = await this.notesService.noteInsert(dto, TEMP_USER_UID);
+  async create(
+    @Body() dto: CreateNoteDto,
+    @CurrentUser() user: DecodedIdToken,
+  ): Promise<SingleResponse<string>> {
+    const message = await this.notesService.noteInsert(dto, user.uid);
     return new SingleResponse(message, 'Note created successfully');
   }
 
