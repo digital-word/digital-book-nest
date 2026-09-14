@@ -29,16 +29,39 @@ This project uses [Volta](https://volta.sh/) to automatically manage the correct
 
 ### 1. Install prerequisites
 
+<details>
+<summary><strong>macOS / Linux (bash)</strong></summary>
+
 ```bash
 # Install Volta
 $ curl https://get.volta.sh | bash
 
 # Install GCloud CLI
-# Please check the installation guide for your OS: https://docs.cloud.google.com/sdk/docs/install-sdk
+# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#windows
 
 # Install Firebase CLI globally
 $ npm install -g firebase-tools
 ```
+
+</details>
+
+<details>
+<summary><strong>Windows (PowerShell / cmd)</strong></summary>
+
+```powershell
+# Install Volta
+> winget install Volta.Volta
+
+# Install GCloud CLI
+# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#deb
+
+# Install Firebase CLI globally
+> npm install -g firebase-tools
+```
+
+Open a new terminal afterwards so `volta`/`firebase` are picked up on `PATH`.
+
+</details>
 
 ### 2. Install dependencies
 
@@ -59,9 +82,24 @@ $ gcloud auth application-default login
 
 Copy the example file and fill in the values (see [Project settings](https://console.firebase.google.com/project/digital-book-fbaa0/settings/general) for the Firebase web config):
 
+<details>
+<summary><strong>macOS / Linux (bash)</strong></summary>
+
 ```bash
 $ cp .env.example .env.local
 ```
+
+</details>
+
+<details>
+<summary><strong>Windows (PowerShell / cmd)</strong></summary>
+
+```powershell
+> Copy-Item .env.example .env.local   # PowerShell
+> copy .env.example .env.local        # cmd
+```
+
+</details>
 
 Without this file, requests from the frontend/Postman will fail with missing project/config errors even if the backend and emulators are running fine.
 
