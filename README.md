@@ -27,13 +27,49 @@ Built with [NestJS](https://nestjs.com) - a progressive Node.js framework for bu
 
 This project uses [Volta](https://volta.sh/) to automatically manage the correct Node.js version.
 
+### 1. Install prerequisites
+
 ```bash
 # Install Volta
 $ curl https://get.volta.sh | bash
 
-# Open a new terminal, then install dependencies.
-# Volta will automatically download and use the Node version pinned in package.json.
+# Install GCloud CLI
+# Please check the installation guide for your OS: https://docs.cloud.google.com/sdk/docs/install-sdk
+
+# Install Firebase CLI globally
+$ npm install -g firebase-tools
+```
+
+### 2. Install dependencies
+
+Open a new terminal so Volta picks up the Node version pinned in `package.json`, then run:
+
+```bash
 $ npm install
+```
+
+### 3. Authenticate with Firebase and GCloud
+
+```bash
+$ firebase login
+$ gcloud auth application-default login
+```
+
+### 4. Configure environment variables
+
+Copy the example file and fill in the values (see [Project settings](https://console.firebase.google.com/project/digital-book-fbaa0/settings/general) for the Firebase web config):
+
+```bash
+$ cp .env.example .env.local
+```
+
+Without this file, requests from the frontend/Postman will fail with missing project/config errors even if the backend and emulators are running fine.
+
+### 5. Generate the Data Connect SDK and start emulators
+
+```bash
+$ firebase dataconnect:sdk:generate
+$ firebase emulators:start
 ```
 
 ## Compile and run the project
