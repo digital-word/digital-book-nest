@@ -1,4 +1,4 @@
-# Digital Book - NestJS Backend
+# Digital Book - NestJS
 
 ## Description
 
@@ -19,7 +19,7 @@ Built with [NestJS](https://nestjs.com) - a progressive Node.js framework for bu
 
 - **Framework**: NestJS
 - **Language**: TypeScript
-- **Storage**: JSON files (temporary, database migration planned)
+- **Storage**: Firebase Dataconnect
 - **Documentation**: Swagger/OpenAPI
 - **Validation**: class-validator & class-transformer
 
@@ -37,7 +37,7 @@ This project uses [Volta](https://volta.sh/) to automatically manage the correct
 $ curl https://get.volta.sh | bash
 
 # Install GCloud CLI
-# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#windows
+# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#deb
 
 # Install Firebase CLI globally
 $ npm install -g firebase-tools
@@ -53,13 +53,11 @@ $ npm install -g firebase-tools
 > winget install Volta.Volta
 
 # Install GCloud CLI
-# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#deb
+# Please check: https://docs.cloud.google.com/sdk/docs/install-sdk#windows
 
 # Install Firebase CLI globally
 > npm install -g firebase-tools
 ```
-
-Open a new terminal afterwards so `volta`/`firebase` are picked up on `PATH`.
 
 </details>
 
