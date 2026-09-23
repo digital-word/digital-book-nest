@@ -174,11 +174,9 @@ Using Google Cloud with Firebase.
 
 ### Some Commands
 
-`firebase login` <br>
 `firebase login --reauth` <br>
 `firebase login:ci` (generate a new token) <br>
 `firebase dataconnect:sql:shell --project digital-book-fbaa0` (Open Cloud SQL Shell) <br>
-`gcloud auth application-default login` (This re-authenticates ADC for the admin. For local development) <br>
 `firebase dataconnect:sdk:generate` (generate new schema, queries, mutations)
 
 ## License
