@@ -1,0 +1,45 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: ['staging']
+  pull_request:
+    branches: ['staging']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: volta-cli/action@v4
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
+      - name: Generate Data Connect SDK
+        run: npx -y firebase-tools dataconnect:sdk:generate --project digital-book-fbaa0
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: volta-cli/action@v4
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
+      - name: Generate Data Connect SDK
+        run: npx -y firebase-tools dataconnect:sdk:generate --project digital-book-fbaa0
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
+          projectId: digital-book-fbaa0
+          channelId: live
