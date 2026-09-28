@@ -7,5 +7,6 @@
     "streetsidesoftware.code-spell-checker",
     "wesbos.theme-cobalt2",
     "googlecloudtools.firebase-dataconnect-vscode",
+    "github.vscode-github-actions"
   ]
 }

@@ -37,9 +37,5 @@ jobs:
         run: npx -y firebase-tools dataconnect:sdk:generate --project digital-book-fbaa0
       - run: npm ci
       - run: npm run build
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
-          projectId: digital-book-fbaa0
-          channelId: live
+      - name: Deploy to Firebase Functions
+        run: npx -y firebase-tools deploy --only functions --project digital-book-fbaa0
