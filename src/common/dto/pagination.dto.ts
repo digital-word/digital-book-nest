@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
  * Pagination information included in list responses
  */
 export class Pagination {
-  @ApiProperty({ description: 'Current page number', example: 1, default: 1 })
+  @ApiProperty({ description: 'Current page number', example: 0, default: 0 })
   page!: number;
 
   @ApiProperty({
@@ -31,7 +31,7 @@ export class Pagination {
     this.limit = limit;
     this.total = total;
     this.totalPages = Math.ceil(total / limit);
-    this.hasNext = page < this.totalPages;
-    this.hasPrevious = page > 1;
+    this.hasNext = page < this.totalPages - 1;
+    this.hasPrevious = page > 0;
   }
 }

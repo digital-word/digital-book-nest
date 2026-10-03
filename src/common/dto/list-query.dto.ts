@@ -17,14 +17,14 @@ import { OrderDirection } from '@dataconnect/admin-generated';
  */
 export class ListQueryDto {
   // Pagination
-  @ApiPropertyOptional({ description: 'Page number', example: 1, default: 1 })
+  @ApiPropertyOptional({ description: 'Page number', example: 0, default: 0 })
   @IsOptional()
   @Transform(({ value }: { value: string }) =>
-    value ? Number.parseInt(value, 10) : 1,
+    value ? Number.parseInt(value, 10) : 0,
   )
   @IsInt()
-  @Min(1)
-  page: number = 1;
+  @Min(0)
+  page: number = 0;
 
   @ApiPropertyOptional({
     description: 'Items per page',

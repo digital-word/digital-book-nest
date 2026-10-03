@@ -48,7 +48,7 @@ export class NotesService {
     query: ListQueryDto,
   ): Promise<{ data: NoteItem[]; total: number }> {
     this.logger.debug(`findPage called: ${JSON.stringify(query)}`);
-    const offset = (query.page - 1) * query.limit;
+    const offset = query.page * query.limit;
     try {
       const [pageResult, countResult] = await Promise.all([
         listNotes({ limit: query.limit, offset, order: query.sortOrder }),
