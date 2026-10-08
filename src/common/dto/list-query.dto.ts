@@ -5,11 +5,16 @@ import {
   IsInt,
   Min,
   Max,
-  IsString,
   IsEnum,
   IsBoolean,
 } from 'class-validator';
 import { OrderDirection } from '@dataconnect/admin-generated';
+
+export enum OrderBy {
+  TITLE = 'title',
+  UPDATED_AT = 'updatedAt',
+  CREATED_AT = 'createdAt',
+}
 
 /**
  * Common query parameters for list endpoints
@@ -45,11 +50,14 @@ export class ListQueryDto {
   // Sorting
   @ApiPropertyOptional({
     description: 'Field to sort by',
-    example: 'createdTime',
+    enum: OrderBy,
+    default: OrderBy.CREATED_AT,
+    enumName: 'OrderBy',
+    example: 'updatedAt',
   })
   @IsOptional()
-  @IsString()
-  sortBy?: string;
+  @IsEnum(OrderBy)
+  sortBy?: OrderBy;
 
   @ApiPropertyOptional({
     description: 'Sort order',

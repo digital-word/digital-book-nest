@@ -1,5 +1,5 @@
 import {
-  ListNotesData,
+  ListNotesByUpdatedAtData,
   NoteStatus as DataConnectNoteStatus,
   NotePermission as DataConnectNotePermission,
 } from '@dataconnect/admin-generated';
@@ -9,7 +9,7 @@ import {
   NotePermission,
 } from './interfaces/note.interface';
 
-type DataConnectNoteListItem = ListNotesData['notes'][number];
+type DataConnectNoteListItem = ListNotesByUpdatedAtData['notes'][number];
 
 /**
  * Generated and domain enums share the same string values but are distinct

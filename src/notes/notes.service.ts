@@ -1,17 +1,34 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { NoteItem, Content } from './interfaces/note.interface';
 import {
-  listNotes,
+  listNotesByUpdatedAt,
+  listNotesByCreatedAt,
+  listNotesByTitle,
   countNotes,
   createNote,
 } from '@dataconnect/admin-generated';
-import { ListQueryDto } from '../common/dto/list-query.dto';
+import { ListQueryDto, OrderBy } from '../common/dto/list-query.dto';
 import { CreateNoteDto } from './dto/create-note.dto';
 import {
   toDataConnectNoteStatus,
   toDataConnectNotePermission,
   toDomainNoteItem,
 } from './notes.mapper';
+
+/**
+ * Data Connect generates one query per sort key (GraphQL can't parameterize
+ * *which* field orderBy sorts on), so each `OrderBy` member maps to its own
+ * generated query function, sharing the same field selection via a fragment.
+ * Keying by `OrderBy` (rather than raw strings) makes this exhaustive: TS
+ * errors if a new enum member is added without a matching entry here.
+ */
+type NoteListQueryFn = typeof listNotesByUpdatedAt;
+const NOTE_SORT_QUERIES: Record<OrderBy, NoteListQueryFn> = {
+  [OrderBy.UPDATED_AT]: listNotesByUpdatedAt,
+  [OrderBy.CREATED_AT]: listNotesByCreatedAt,
+  [OrderBy.TITLE]: listNotesByTitle,
+};
+const DEFAULT_SORT_KEY = OrderBy.CREATED_AT;
 
 @Injectable()
 export class NotesService {
@@ -49,9 +66,14 @@ export class NotesService {
   ): Promise<{ data: NoteItem[]; total: number }> {
     this.logger.debug(`findPage called: ${JSON.stringify(query)}`);
     const offset = query.page * query.limit;
+    const sortKey = query.sortBy ?? DEFAULT_SORT_KEY;
     try {
       const [pageResult, countResult] = await Promise.all([
-        listNotes({ limit: query.limit, offset, order: query.sortOrder }),
+        NOTE_SORT_QUERIES[sortKey]({
+          limit: query.limit,
+          offset,
+          order: query.sortOrder,
+        }),
         countNotes(),
       ]);
       const data = pageResult.data.notes.map((note) => toDomainNoteItem(note));

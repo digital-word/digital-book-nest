@@ -4,27 +4,56 @@ query CountNotes @auth(level: NO_ACCESS) {
   }
 }
 
-query ListNotes($limit: Int, $offset: Int, $order: OrderDirection) @auth(level: NO_ACCESS) {
+fragment NoteListFields on Note {
+  id
+  title
+  isFavorite
+  status
+  permissions
+  version
+  createdAt
+  updatedAt
+  tags: tags_via_NoteTag {
+    name
+  }
+  categories: categories_via_NoteCategory {
+    name
+  }
+}
+
+query ListNotesByUpdatedAt($limit: Int, $offset: Int, $order: OrderDirection)
+@auth(level: NO_ACCESS) {
   notes(
     limit: $limit
     offset: $offset
     where: { isDeleted: { eq: false } }
     orderBy: [{ updatedAt: $order }]
   ) {
-    id
-    title
-    isFavorite
-    status
-    permissions
-    version
-    createdAt
-    updatedAt
-    tags: tags_via_NoteTag {
-      name
-    }
-    categories: categories_via_NoteCategory {
-      name
-    }
+    ...NoteListFields
+  }
+}
+
+query ListNotesByCreatedAt($limit: Int, $offset: Int, $order: OrderDirection)
+@auth(level: NO_ACCESS) {
+  notes(
+    limit: $limit
+    offset: $offset
+    where: { isDeleted: { eq: false } }
+    orderBy: [{ createdAt: $order }]
+  ) {
+    ...NoteListFields
+  }
+}
+
+query ListNotesByTitle($limit: Int, $offset: Int, $order: OrderDirection)
+@auth(level: NO_ACCESS) {
+  notes(
+    limit: $limit
+    offset: $offset
+    where: { isDeleted: { eq: false } }
+    orderBy: [{ title: $order }]
+  ) {
+    ...NoteListFields
   }
 }
 
