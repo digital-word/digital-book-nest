@@ -1,13 +1,14 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import express from 'express';
+import { Logger } from '@nestjs/common';
 import * as functions from 'firebase-functions';
 import { AppModule } from '../../src/app.module';
-import { configureApp } from '../../src/bootstrap';
+import { configureApp, createExpressApp } from '../../src/bootstrap';
 import { getApps, initializeApp } from 'firebase-admin/app';
 
-const expressApp = express();
+const logger = new Logger('Functions');
+const expressApp = createExpressApp();
 let appInitialized: Promise<void> | undefined;
 
 async function createApp(): Promise<void> {
@@ -30,7 +31,9 @@ export const api = functions.https.onRequest(async (req, res) => {
     await appInitialized;
   } catch (error) {
     appInitialized = undefined; // allow retry on next invocation
-    console.error('Nest bootstrap failed', error);
+    logger.error(
+      `Nest bootstrap failed: ${error instanceof Error ? error.stack : String(error)}`,
+    );
     res.status(500).json({ statusCode: 500, message: 'Bootstrap failed' });
     return;
   }

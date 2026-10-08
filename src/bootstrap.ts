@@ -1,6 +1,17 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import express, { Application } from 'express';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import configuration from './config/configuration';
+
+/**
+ * Creates the Express instance for functions/src/index.ts, hardened
+ * immediately so no caller can wrap an unhardened instance.
+ */
+export function createExpressApp(): Application {
+  const app = express();
+  app.disable('x-powered-by'); // avoid leaking framework/version via X-Powered-By header (CWE-200)
+  return app;
+}
 
 /**
  * Shared Nest app configuration used by every bootstrap entry point

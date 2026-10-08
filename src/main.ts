@@ -1,10 +1,13 @@
 import 'reflect-metadata';
 import { getApps, initializeApp } from 'firebase-admin/app';
 import { NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import configuration from './config/configuration';
 import { configureApp } from './bootstrap';
+
+const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
   if (!getApps().length) {
@@ -29,7 +32,7 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 
 void bootstrap();
