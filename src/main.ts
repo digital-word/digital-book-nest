@@ -2,10 +2,9 @@ import 'reflect-metadata';
 import { getApps, initializeApp } from 'firebase-admin/app';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import configuration from './config/configuration';
-import { configureApp } from './bootstrap';
+import { configureApp, setupSwagger } from './bootstrap';
 
 const logger = new Logger('Bootstrap');
 
@@ -17,22 +16,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   configureApp(app);
-
-  const config = new DocumentBuilder()
-    .setTitle('Digital Book API')
-    .setDescription(
-      'Backend API for Digital Book platform - a comprehensive application for book enthusiasts. Currently implements the Notes feature with rich text editing using Quill Delta format.',
-    )
-    .setVersion('1.0')
-    .addServer('http://localhost:3000', 'Local development')
-    .addTag('notes', 'Notes management endpoints')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  setupSwagger(app);
 
   await app.listen(process.env.PORT ?? 3000);
 
-  logger.log(`Application is running on: ${await app.getUrl()}`);
+  const url = await app.getUrl();
+  logger.log(`Application is running on: ${url}`);
+  logger.log(`Swagger docs available at: ${url}/docs`);
 }
 
 void bootstrap();

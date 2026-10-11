@@ -4,7 +4,11 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { Logger } from '@nestjs/common';
 import * as functions from 'firebase-functions';
 import { AppModule } from '../../src/app.module';
-import { configureApp, createExpressApp } from '../../src/bootstrap';
+import {
+  configureApp,
+  createExpressApp,
+  setupSwagger,
+} from '../../src/bootstrap';
 import { getApps, initializeApp } from 'firebase-admin/app';
 
 const logger = new Logger('Functions');
@@ -20,6 +24,7 @@ async function createApp(): Promise<void> {
     new ExpressAdapter(expressApp),
   );
   configureApp(app);
+  setupSwagger(app);
   await app.init();
 }
 

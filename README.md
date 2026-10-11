@@ -23,6 +23,45 @@ Built with [NestJS](https://nestjs.com) - a progressive Node.js framework for bu
 - **Documentation**: Swagger/OpenAPI
 - **Validation**: class-validator & class-transformer
 
+## API Documentation
+
+### Access Documentation
+
+Once the server is running, visit:
+
+#### API
+
+**Local**
+
+- Swagger: [http://localhost:3000/docs](http://localhost:3000/docs)
+- YAML: [http://localhost:3000/docs-yaml](http://localhost:3000/docs-yaml)
+- JSON: [http://localhost:3000/docs-json](http://localhost:3000/docs-json)
+
+**Remote**
+
+Staging:
+
+- Swagger: [https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs](https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs)
+- YAML: [https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs-yaml](https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs-yaml)
+- JSON: [https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs-json](https://us-central1-digital-book-fbaa0.cloudfunctions.net/api/docs-json)
+
+Production:
+
+- Swagger: ...
+- YAML: ...
+- JSON: ...
+
+### Import to Postman
+
+You can import the OpenAPI spec directly into Postman:
+
+1. Start the development server: `npm run start:dev` (or use a remote URL)
+2. In Postman: **Import** → **Link**
+3. Enter: `http://localhost:3000/docs-json` (or the remote one)
+4. Click **Continue** and **Import**
+
+This automatically generates a complete Postman collection from the live API specification.
+
 ## Project setup
 
 This project uses [Volta](https://volta.sh/) to automatically manage the correct Node.js version.
@@ -120,28 +159,6 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-
-## API Documentation
-
-This project uses **Swagger/OpenAPI** for interactive API documentation.
-
-### Access Documentation
-
-Once the server is running, visit:
-
-- **Swagger UI**: [http://localhost:3000/api](http://localhost:3000/api)
-- **OpenAPI JSON**: [http://localhost:3000/api-json](http://localhost:3000/api-json)
-
-### Import to Postman
-
-You can import the OpenAPI spec directly into Postman:
-
-1. Start the development server: `npm run start:dev`
-2. In Postman: **Import** → **Link**
-3. Enter: `http://localhost:3000/api-json`
-4. Click **Continue** and **Import**
-
-This automatically generates a complete Postman collection from the live API specification.
 
 ## Run tests
 
