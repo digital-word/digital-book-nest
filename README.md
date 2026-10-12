@@ -198,4 +198,4 @@ Using Google Cloud with Firebase.
 
 ## License
 
-MIT
+[MIT](LICENSE)
