@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: staging
     steps:
       - uses: actions/checkout@v4
       - uses: volta-cli/action@v4
@@ -17,7 +18,7 @@ jobs:
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
       - name: Generate Data Connect SDK
-        run: npx -y firebase-tools dataconnect:sdk:generate --project digital-book-fbaa0
+        run: npx -y firebase-tools dataconnect:sdk:generate --project '${{ vars.GCP_PROJECT_ID }}'
       - run: npm ci
       - run: npm run build
       - run: npm test
@@ -26,6 +27,7 @@ jobs:
     if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
+    environment: staging
     steps:
       - uses: actions/checkout@v4
       - uses: volta-cli/action@v4
@@ -34,8 +36,17 @@ jobs:
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_BOOK_FBAA0 }}'
       - name: Generate Data Connect SDK
-        run: npx -y firebase-tools dataconnect:sdk:generate --project digital-book-fbaa0
+        run: npx -y firebase-tools dataconnect:sdk:generate --project '${{ vars.GCP_PROJECT_ID }}'
       - run: npm ci
       - run: npm run build
+      - name: Write runtime env for Functions
+        run: |
+          cat > .env <<'EOF'
+          NODE_ENV=${{ vars.NODE_ENV }}
+          FRONTEND_URL=${{ vars.FRONTEND_URL }}
+          WEB_API_KEY=${{ secrets.WEB_API_KEY }}
+          AUTH_DOMAIN=${{ secrets.AUTH_DOMAIN }}
+          GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }}
+          EOF
       - name: Deploy to Firebase Functions
-        run: npx -y firebase-tools deploy --only functions --project digital-book-fbaa0
+        run: npx -y firebase-tools deploy --only functions --project '${{ vars.GCP_PROJECT_ID }}'
